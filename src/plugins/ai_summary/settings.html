@@ -1,0 +1,72 @@
+<div class="form-group">
+
+    <!-- Title -->
+    <div class="form-group nowrap">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" id="title" name="title" placeholder="My News Summary" required class="form-input">
+    </div>
+
+    <!-- Model selector -->
+    <div class="form-group nowrap">
+        <label for="textModel" class="form-label">Text Model:</label>
+        <select id="textModel" name="textModel" class="form-input">
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini-3-12b">Gemini 3 12B</option>
+            <option value="gemini-3-pro">Gemini 3 Pro</option>
+        </select>
+    </div>
+
+</div>
+
+<!-- MULTIPLE RSS FEEDS -->
+<div class="form-group">
+    <label class="form-label">RSS Feeds:</label>
+    <div id="rssFeedList"></div>
+    <button type="button" id="addRssBtn" class="form-input collapsible" onclick="addRssInput('')">
+        Add RSS Feed
+    </button>
+</div>
+
+<script>
+    function addRssInput(url='') {
+        const list = document.getElementById('rssFeedList');
+
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('form-group', 'rss-entry');
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'rssFeeds[]';
+        input.placeholder = 'RSS Feed URL';
+        input.required = true;
+        input.classList.add('form-input');
+        input.value = url;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = '✕';
+        removeBtn.classList.add('remove-btn');
+        removeBtn.onclick = () => wrapper.remove();
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(removeBtn);
+        list.appendChild(wrapper);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fill basic fields
+        if (loadPluginSettings) {
+            document.getElementById('title').value = pluginSettings.title || '';
+            document.getElementById('textModel').value = pluginSettings.textModel;
+        }
+
+        // Restore RSS feeds (or create one empty one)
+        const saved = loadPluginSettings ? pluginSettings["rssFeeds[]"] : null;
+
+        if (saved && saved.length > 0) {
+            saved.forEach(url => addRssInput(url));
+        } else {
+            addRssInput('');  // <-- ALWAYS show at least one input
+        }
+    });
+</script>
