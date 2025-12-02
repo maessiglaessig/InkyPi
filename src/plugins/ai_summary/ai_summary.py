@@ -107,6 +107,7 @@ class AISummary(BasePlugin):
             "Summarise the most important items in max 3 sentences in German." 
             "Ignore unimportant news. Don't be fooled by attention-grabbing headlines."
             "Of special importance are nature-related articles, Swiss politics, large world events, and events that could have a long-lasting impact."
+            "Only return the summary, no title, no 'here you go', or anything else!"
             f"For context, today is {datetime.today().strftime('%Y-%m-%d')}"
         )
 
