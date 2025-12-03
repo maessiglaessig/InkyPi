@@ -1,0 +1,26 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="event-dashboard" style="--font-scale: {{ font_scale }};">
+    {% if title %}<div class="title">{{ title }}</div>{% endif %}
+
+    {% if image %}
+    <div class="image-wrapper">
+        <img src="{{ image }}" alt="Event Image" class="event-image">
+    </div>
+    {% endif %}
+
+    {% if description %}
+    <div class="description">{{ description }}</div>
+    {% endif %}
+
+    <div class="details">
+        {% if location %}<div class="location"><strong>Location:</strong> {{ location }}</div>{% endif %}
+        {% if date %}
+        <div class="datetime"><strong>Date & Time:</strong> {{ date }}{% if time %}, {{ time }}{% endif %}</div>
+        {% elif time %}
+        <div class="datetime"><strong>Date & Time:</strong> {{ time }}</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
