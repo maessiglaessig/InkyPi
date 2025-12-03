@@ -1,6 +1,5 @@
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.app_utils import resolve_path
-from google import genai
 from playwright.sync_api import sync_playwright
 import json
 from PIL import Image, ImageDraw, ImageFont
