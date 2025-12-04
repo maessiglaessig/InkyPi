@@ -24,8 +24,9 @@ class Movierecs(BasePlugin):
 
         template_params['movie_titles[]'] = {
             "required": True,
-            "placeholder": "e.g. Fallen Angels",
-            "label": "Movie Titles (one per field)"
+            "type": "textarea",
+            "placeholder": "Fallen Angels\nIn the Mood for Love",
+            "label": "Movie Titles (one per line)"
         }
 
         template_params['style_settings'] = True
@@ -34,21 +35,24 @@ class Movierecs(BasePlugin):
 
 
     def generate_image(self, settings, device_config):
-        """Display ONE random movie from list using OMDB."""
+        """Display ONE movie from list using OMDB."""
         api_key = device_config.load_env_key("OMDB_SECRET")
         if not api_key:
-            raise RuntimeError("OMDB API Key not configured in .env")
+            raise RuntimeError("OMDB API Key not configured in .env.")
         
         title = settings.get("title")
 
-        # Load settings array as list of strings
-        titles = settings.get("movie_titles[]")
-        if not titles:
-            raise RuntimeError("At least one movie title is required")
+        raw_list = settings.get("movie_list","")
+        if not raw_list:
+            raise RuntimeError("Movie list is empty.")
+        
+        # split by newline to get individual titles
+        titles = raw_list.splitlines()
 
+        # clean whitespace and filter empty lines
         titles = [t.strip() for t in titles if t.strip()]
         if not titles:
-            raise RuntimeError("Movie title fields are empty")
+            raise RuntimeError("Movie title fields are empty.")
 
         # Fetch data for each movie and store only valid ones
         movie_data = []

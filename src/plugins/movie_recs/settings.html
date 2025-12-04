@@ -8,61 +8,19 @@
 </div>
 
 <div class="form-group">
-    <label class="form-label">Movies you like (for context):</label>
-    <div id="movieList"></div>
-    <button type="button" id="addMovieBtn" class="form-input collapsible" onclick="addMovieInput('')">
-        Add Movie
-    </button>
+    <label for="movie_list" class="form-label">Movies you like (one per line):</label>
+    <textarea id="movie_list" name="movie_list" class="form-input" rows="10" placeholder="Fallen Angels&#10;In the Mood for Love&#10;Chungking Express" required></textarea>
 </div>
 
 <script>
-    function addMovieInput(value='') {
-        const list = document.getElementById('movieList');
-
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('form-group', 'rss-entry'); 
-
-        const input = document.createElement('input');
-        input.type = 'text';
-        
-        // --- FIX BELOW: Changed from 'favoriteMovies[]' to 'movie_titles[]' ---
-        input.name = 'movie_titles[]'; 
-        // --------------------------------------------------------------------
-        
-        input.placeholder = 'e.g. Fallen Angels';
-        input.required = true;
-        input.classList.add('form-input');
-        input.value = value;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.textContent = '✕';
-        removeBtn.classList.add('remove-btn');
-        removeBtn.onclick = () => wrapper.remove();
-
-        wrapper.appendChild(input);
-        wrapper.appendChild(removeBtn);
-        list.appendChild(wrapper);
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         // Fill basic fields
         if (typeof loadPluginSettings !== 'undefined' && loadPluginSettings) {
             document.getElementById('title').value = pluginSettings.title || '';
-            // Note: textModel was not in your Python template, but left here if needed by base
-        }
-
-        // Restore Favorite Movies
-        // --- FIX BELOW: Changed from 'favoriteMovies[]' to 'movie_titles[]' ---
-        const saved = (typeof loadPluginSettings !== 'undefined' && loadPluginSettings) 
-            ? pluginSettings["movie_titles[]"] 
-            : null;
-        // --------------------------------------------------------------------
-
-        if (saved && saved.length > 0) {
-            saved.forEach(val => addMovieInput(val));
-        } else {
-            addMovieInput('');  
+            
+            // Restore Movie List
+            // We now simply load the string block into the textarea
+            document.getElementById('movie_list').value = pluginSettings.movie_list || '';
         }
     });
 </script>
