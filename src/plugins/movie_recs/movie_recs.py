@@ -10,6 +10,8 @@ import random
 logger = logging.getLogger(__name__)
 
 class Movierecs(BasePlugin):
+    # Class variable to track the current index across multiple executions/refreshes
+    _current_index = 0
 
     def generate_settings_template(self):
         template_params = super().generate_settings_template()
@@ -58,8 +60,13 @@ class Movierecs(BasePlugin):
         if not movie_data:
             raise RuntimeError("No valid movies found, check titles!")
 
-        # 🎯 Choose ONE random movie (just like your events plugin)
-        selected_movie = random.choice(movie_data)
+        # choose movie based on the current cycle indexx
+        # use module to loop back to the start if the index esceeds the list length
+        current_selection_index = Movierecs._current_index % len(movie_data)
+        selected_movie = movie_data[current_selection_index]
+
+        # increment the index for the next refresh
+        Movierecs._current_index += 1
 
         # Orientation correction
         dimensions = device_config.get_resolution()
