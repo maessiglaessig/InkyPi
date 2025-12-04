@@ -82,6 +82,8 @@ class Movierecs(BasePlugin):
             "plot": selected_movie["plot"],
             "released": selected_movie["released"],
             "rating": selected_movie["rating"],
+            "runtime": selected_movie["runtime"],
+            "country": selected_movie["country"],
             "poster": selected_movie["poster_url"],
             "box_office": selected_movie["box_office"],
             "plugin_settings": settings
@@ -112,6 +114,8 @@ class Movierecs(BasePlugin):
             "plot": data.get("Plot", "").strip(),
             "released": data.get("Released", ""),
             "rating": data.get("imdbRating", "N/A"),
+            "runtime": data.get("Runtime", ""),
+            "country": data.get("Country", ""),
             "poster_url": data.get("Poster", None),
             "box_office": data.get("BoxOffice", "N/A")
         }
