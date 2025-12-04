@@ -1,0 +1,23 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="movie-container">
+
+    <div class="poster-box">
+        {% if poster %}
+            <img src="{{ poster}}" alt="Poster">
+        {% else %}
+            <div class="no-image">No Poster</div>
+        {% endif %}
+    </div>
+
+    <div class="info-box">
+        <div class="title">{{ title }}</div>
+        <div class="details">{{ released }}</div>
+        <div class="details">💰{{ box_office }}</div>
+        <div class="details">⭐ {{ rating }}/10</div>
+        <div class="plot">{{ plot }}</div>
+    </div>
+
+</div>
+{% endblock %}
