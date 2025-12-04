@@ -1,10 +1,20 @@
-# InkyPi 
+# InkyPi (Personal Edition)
 
 <img src="./docs/images/inky_clock.jpg" />
 
+**Note:** This repository is based on the original open-source project **InkyPi** by @faithak.
+> Original repo: https://github.com/fatihak/InkyPi  
+> This version is maintained independently and contains custom plugins and changes not intended for general public distribution.  
+> All credit for the original framework and idea goes to the original authors.
 
-## About InkyPi 
-InkyPi is an open-source, customizable E-Ink display powered by a Raspberry Pi. Designed for simplicity and flexibility, it allows you to effortlessly display the content you care about, with a simple web interface that makes setup and configuration effortless.
+## About This Version 
+This project is a customized version of InkyPi, tailored for personal use.  
+The main changes are:
+- Additional plugins specific to my own needs (e.g., local event scraper for Zurich, movie recommendations, ai news summary, etc.)
+- Minor adjustments to existing plugins and UI
+
+It is not intended to replace or compete with the original project.  
+If you are looking for a general-purpose, community-supported version, please visit the original repo instead.
 
 **Features**:
 - Natural paper-like aethetic: crisp, minimalist visuals that are easy on the eyes, with no glare or backlight
@@ -26,25 +36,17 @@ InkyPi is an open-source, customizable E-Ink display powered by a Raspberry Pi. 
 And additional plugins coming soon! For documentation on building custom plugins, see [Building InkyPi Plugins](./docs/building_plugins.md).
 
 ## Hardware 
+**Core Components:**
 - Raspberry Pi (4 | 3 | Zero 2 W)
     - Recommended to get 40 pin Pre Soldered Header
-- MicroSD Card (min 8 GB) like [this one](https://amzn.to/3G3Tq9W)
+- MicroSD Card (min 8 GB)
 - E-Ink Display:
-    - Inky Impression by Pimoroni
-        - **[13.3 Inch Display](https://collabs.shop/q2jmza)**
-        - **[7.3 Inch Display](https://collabs.shop/q2jmza)**
-        - **[5.7 Inch Display](https://collabs.shop/ns6m6m)**
-        - **[4 Inch Display](https://collabs.shop/cpwtbh)**
-    - Inky wHAT by Pimoroni
-        - **[4.2 Inch Display](https://collabs.shop/jrzqmf)**
-    - Waveshare e-Paper Displays
-        - Spectra 6 (E6) Full Color **[4 inch](https://www.waveshare.com/4inch-e-paper-hat-plus-e.htm?&aff_id=111126)** **[7.3 inch](https://www.waveshare.com/7.3inch-e-paper-hat-e.htm?&aff_id=111126)** **[13.3 inch](https://www.waveshare.com/13.3inch-e-paper-hat-plus-e.htm?&aff_id=111126)**
-        - Black and White **[7.5 inch](https://www.waveshare.com/7.5inch-e-paper-hat.htm?&aff_id=111126)** **[13.3 inch](https://www.waveshare.com/13.3inch-e-paper-hat-k.htm?&aff_id=111126)**
-        - See [Waveshare e-paper displays](https://www.waveshare.com/product/raspberry-pi/displays/e-paper.htm?&aff_id=111126) or visit their [Amazon store](https://amzn.to/3HPRTEZ) for additional models. Note that some models like the IT8951 based displays are not supported. See later section on [Waveshare e-Paper](#waveshare-display-support) compatibilty for more information.
-- Picture Frame or 3D Stand
-    - See [community.md](./docs/community.md) for 3D models, custom builds, and other submissions from the community
-
-**Disclosure:** The links above are affiliate links. I may earn a commission from qualifying purchases made through them, at no extra cost to you, which helps maintain and develop this project.
+    - Pimoroni Inky Impression (7.3", 13.3")
+    - Pimoroni Inky wHAT (4.2")
+    - Waveshare e-Paper Displays (various displays, some are not supported though!)
+- Micro USB Cable
+**Optional Materials**
+- Picture frame or 3D-printed stand
 
 ## Installation
 To install InkyPi, follow these steps:
@@ -108,14 +110,7 @@ sudo bash install/uninstall.sh
 ```
 
 ## Roadmap
-The InkyPi project is constantly evolving, with many exciting features and improvements planned for the future.
-
-- Plugins, plugins, plugins
-- Modular layouts to mix and match plugins
-- Support for buttons with customizable action bindings
-- Improved Web UI on mobile devices
-
-Check out the public [trello board](https://trello.com/b/SWJYWqe4/inkypi) to explore upcoming features and vote on what you'd like to see next!
+...
 
 ## Waveshare Display Support
 
@@ -133,22 +128,14 @@ This project includes fonts and icons with separate licensing and attribution re
 
 ## Issues
 
-Check out the [troubleshooting guide](./docs/troubleshooting.md). If you're still having trouble, feel free to create an issue on the [GitHub Issues](https://github.com/fatihak/InkyPi/issues) page.
+Check out the [troubleshooting guide](./docs/troubleshooting.md). If you're still having trouble, feel free to create an issue on the [GitHub Issues](https://github.com/maessiglaessig/InkyPi/issues) page.
 
 If you're using a Pi Zero W, note that there are known issues during the installation process. See [Known Issues during Pi Zero W Installation](./docs/troubleshooting.md#known-issues-during-pi-zero-w-installation) section in the troubleshooting guide for additional details..
 
-## Sponsoring
-
-InkyPi is maintained and developed with the help of sponsors. If you enjoy the project or find it useful, consider supporting its continued development.
-
-<p align="center">
-<a href="https://github.com/sponsors/fatihak" target="_blank"><img src="https://user-images.githubusercontent.com/345274/133218454-014a4101-b36a-48c6-a1f6-342881974938.png" alt="Become a Patreon" height="35" width="auto"></a>
-<a href="https://www.patreon.com/akzdev" target="_blank"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" height="35" width="auto"></a>
-<a href="https://www.buymeacoffee.com/akzdev" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="35" width="auto"></a>
-</p>
-
-
 ## Acknowledgements
+Check out the base of my project:
+
+- [InkyPi](https://github.com/fatihak/InkyPi)
 
 Check out these similar projects:
 
