@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class ZHEvents(BasePlugin):
 
-    CACHE_FILE = Path(__file__).parent / "plugins/zh_events/kulturzueri_cache.json"
+    CACHE_FILE = Path(__file__).parent / "kulturzueri_cache.json"
     SCRAPE_INTERVAL = timedelta(days=7)
     
     def generate_image(self, settings, device_config):
