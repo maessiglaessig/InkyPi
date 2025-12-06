@@ -24,16 +24,13 @@ If you are looking for a general-purpose, community-supported version, please vi
 - Open source project allowing you to modify, customize, and create your own plugins
 - Set up scheduled playlists to display different plugins at designated times
 
-**Plugins**:
+**My Plugins**:
 
-- Image Upload: Upload and display any image from your browser
-- Daily Newspaper/Comic: Show daily comics and front pages of major newspapers from around the world
-- Clock: Customizable clock faces for displaying time
-- AI Image/Text: Generate images and dynamic text from prompts using OpenAI's models
-- Weather: Display current weather conditions and multi-day forecasts with a customizable layout
-- Calendar: Visualize your calendar from Google, Outlook, or Apple Calendar with customizable layouts
+- AI RSS Summary: Generate a three sentence long AI news summary given certain rss feeds from various news sites (hardcoded prompt for my own application [will fix])
+- Event and exhibits in Zurich: Displays a random cultural event or exhibition in Zurich
+- Movie recommendations: Displays a movie with poster and plot summary from a list of movies the user inputs (WIP: user should be able to give one or two letterboxd usernames and the plugin then creates the list on its own)
 
-And additional plugins coming soon! For documentation on building custom plugins, see [Building InkyPi Plugins](./docs/building_plugins.md).
+Additional plugins coming soon! For documentation on building custom plugins, see [Building InkyPi Plugins](./docs/building_plugins.md).
 
 ## Hardware 
 **Core Components:**
