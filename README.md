@@ -17,7 +17,7 @@ It is not intended to replace or compete with the original project.
 If you are looking for a general-purpose, community-supported version, please visit the original repo instead.
 
 **Features**:
-- Natural paper-like aethetic: crisp, minimalist visuals that are easy on the eyes, with no glare or backlight
+- Natural paper-like aesthetic: crisp, minimalist visuals that are easy on the eyes, with no glare or backlight
 - Web Interface allows you to update and configure the display from any device on your network
 - Minimize distractions: no LEDS, noise, or notifications, just the content you care about
 - Easy installation and configuration, perfect for beginners and makers alike
