@@ -1,0 +1,26 @@
+<div class="form-group">
+
+    <div class="form-group nowrap">
+        <label for="title" class="form-label">Widget Title:</label>
+        <input type="text" id="title" name="title" placeholder="Movie Recs" required class="form-input">
+    </div>
+
+</div>
+
+<div class="form-group">
+    <label for="movie_list" class="form-label">Movies you like (one per line):</label>
+    <textarea id="movie_list" name="movie_list" class="form-input" rows="10" placeholder="Fallen Angels&#10;In the Mood for Love&#10;Chungking Express" required></textarea>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fill basic fields
+        if (typeof loadPluginSettings !== 'undefined' && loadPluginSettings) {
+            document.getElementById('title').value = pluginSettings.title || '';
+            
+            // Restore Movie List
+            // We now simply load the string block into the textarea
+            document.getElementById('movie_list').value = pluginSettings.movie_list || '';
+        }
+    });
+</script>
