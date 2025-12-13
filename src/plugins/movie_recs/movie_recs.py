@@ -112,7 +112,7 @@ class Movierecs(BasePlugin):
         return {
             "title": data.get("Title", "Unknown"),
             "plot": data.get("Plot", "").strip(),
-            "released": data.get("Released", ""),
+            "released": datetime.strptime(str(data.get("Released", "")), f"%d %b %Y").year,
             "rating": data.get("imdbRating", "N/A"),
             "runtime": data.get("Runtime", ""),
             "country": data.get("Country", ""),
