@@ -1,30 +1,32 @@
-
 .text-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: flex-start;   /* ← top */
+  align-items: flex-start;       /* ← left */
+  text-align: left;
   height: 100%;
   width: 100%;
-  gap: 1dvh;
-  font-family: "Jost";
-  container-type: size;
+  gap: 0.6em;
+  font-family: "Jost", sans-serif;
 }
+
 
 .title {
   font-weight: bold;
-  font-size: 4rem;
+  font-size: 2em;               /* same as working example */
+  line-height: 1.1em;
   max-width: 100%;
-  font-size: min(10cqh, 8cqi);
 }
 
 .content {
   overflow-wrap: break-word;
   max-width: 100%;
   max-height: 80%;
-  font-weight: 200;
-  font-size: min(6cqh, 5cqi);
+  font-weight: 300;
+  font-size: 1.5em;               /* readable body text */
+  line-height: 1.25em;
   white-space: pre-line;
   overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
