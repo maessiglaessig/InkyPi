@@ -59,6 +59,7 @@ class Movierecs(BasePlugin):
         for title in titles:
             data = Movierecs.fetch_movie_data(title, api_key)
             if data:
+                print(data)
                 movie_data.append(data)
 
         if not movie_data:
@@ -101,18 +102,28 @@ class Movierecs(BasePlugin):
         resp = requests.get(url)
 
         if resp.status_code != 200:
-            logger.error(f"OMDB error for: {title}")
+            logger.error(f"OMDB error for: '{title}', skipping")
             return None
 
         data = resp.json()
         if data.get("Response") == "False":
-            logger.warning(f"Movie not found: {title}")
+            logger.debug(f"Movie not found: '{title}', skipping")
             return None
+        
+        # handle released date - return "N/A" if not available or unparseable
+        released_str = data.get("Released", "N/A")
+        if released_str and released_str != "N/A":
+            try:
+                released = datetime.strptime(released_str, "%d %b %Y").year
+            except (ValueError, TypeError):
+                released = "N/A"
+        else:
+            released = "N/A"
 
         return {
             "title": data.get("Title", "Unknown"),
             "plot": data.get("Plot", "").strip(),
-            "released": datetime.strptime(str(data.get("Released", "")), f"%d %b %Y").year,
+            "released": released,
             "rating": data.get("imdbRating", "N/A"),
             "runtime": data.get("Runtime", ""),
             "country": data.get("Country", ""),
