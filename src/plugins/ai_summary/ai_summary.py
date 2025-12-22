@@ -42,10 +42,14 @@ class AISummary(BasePlugin):
         for rss_feed in rss_feeds:
             if not rss_feed.strip():
                 raise RuntimeError("Invalid RSS link")
+            
+        base_prompt = settings.get('basePrompt')
+        if not base_prompt:
+            raise RuntimeError("A base prompt is required to generate the rss feed summary.")
 
         try:
             ai_client = genai.Client(api_key = api_key)
-            prompt_response = AISummary.fetch_text_prompt(ai_client, text_model, rss_feeds)
+            prompt_response = AISummary.fetch_text_prompt(ai_client, text_model, rss_feeds, base_prompt)
         except Exception as e:
             logger.error(f"Failed to make Gemini request: {str(e)}")
             raise RuntimeError("Gemini request failure, please check logs.")
@@ -97,17 +101,11 @@ class AISummary(BasePlugin):
         }
     
     @staticmethod
-    def fetch_text_prompt(ai_client, model, rss_feeds):
+    def fetch_text_prompt(ai_client, model, rss_feeds, base_prompt):
         logger.info(f"Getting rss feeds and parsing them to AI model: {model}")
 
-        base_prompt = (
-            "You are presented with rss feeds from multiple newspapers in different languages."
-            "The structure is always as follows: first the title and description of the feed, followed by headlines, short descriptions of the articles, and the date they were published."
-            "All articles are from the last two days."
-            "Summarise the most important items in max 3 sentences in German." 
-            "Ignore unimportant news. Don't be fooled by attention-grabbing headlines."
-            "Of special importance are nature-related articles, Swiss politics, large world events, and events that could have a long-lasting impact."
-            "Only return the summary, no title, no 'here you go', or anything else!"
+        full_base_prompt = (
+            base_prompt + 
             f"For context, today is {datetime.today().strftime('%Y-%m-%d')}"
         )
 
@@ -116,7 +114,7 @@ class AISummary(BasePlugin):
             rss_dict = AISummary.fetch_rss_last_2_days(rss_feed)
             rss_prompt += " | " + str(rss_dict)
 
-        full_prompt = base_prompt + rss_prompt
+        full_prompt = full_base_prompt + rss_prompt
 
         # Make the API call
         response = ai_client.models.generate_content(model=model, contents=full_prompt)
