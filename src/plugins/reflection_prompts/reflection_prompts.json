@@ -1,0 +1,36 @@
+{
+  "prompts": {
+    "Neugier / Entdeckung": [
+      "Welche neue Idee oder Entdeckung hat dich heute fasziniert?",
+      "Was hast du heute zum ersten Mal bewusst wahrgenommen?"
+    ],
+    "Beobachtung / Sinneswahrnehmung": [
+      "Welche Geräusche oder Gerüche sind dir heute besonders aufgefallen?",
+      "Welches Detail in deiner Umgebung hat deine Aufmerksamkeit erregt?"
+    ],
+    "Reflexion / Emotion": [
+      "Welcher Moment des Tages hat dir Freude bereitet?",
+      "Welche Stimmung oder Emotion hast du heute am stärksten gespürt?"
+    ],
+    "Dankbarkeit / Wertschätzung": [
+      "Wofür bist du heute besonders dankbar?",
+      "Welche kleine Geste oder Begegnung hat dich heute glücklich gemacht?"
+    ],
+    "Kreativität / Vorstellungskraft": [
+      "Wenn du heute eine Geschichte schreiben würdest, worum würde sie gehen?",
+      "Welche Idee oder Vision würdest du gerne weiterentwickeln?"
+    ],
+    "Lernen / Wachstum": [
+      "Was hast du heute Neues gelernt?",
+      "Welche Fähigkeit oder Kenntnis würdest du gerne noch verbessern?"
+    ],
+    "Natur / Umgebung": [
+      "Was in der Natur hat dich heute beeindruckt?",
+      "Welcher Ort draußen hat dir heute Ruhe oder Freude geschenkt?"
+    ],
+    "Zukunft / Ziele": [
+      "Welche kleinen Schritte könntest du morgen unternehmen, um ein Ziel zu erreichen?",
+      "Wovon träumst du aktuell und was kannst du heute dafür tun?"
+    ]
+  }
+}
