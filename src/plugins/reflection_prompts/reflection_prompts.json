@@ -1,36 +1,49 @@
 {
   "prompts": {
     "Neugier / Entdeckung": [
-      "Welche neue Idee oder Entdeckung hat dich heute fasziniert?",
-      "Was hast du heute zum ersten Mal bewusst wahrgenommen?"
+      "Welche neue Idee hat dich heute fasziniert?",
+      "Was hast du heute zum ersten Mal bewusst wahrgenommen?",
+      "Was hast du letzte Woche neu gelernt?",
+      "Was hast du in letzter Zeit neu entdeckt?",
+      "Woher kannst du dir neues Wissen beschaffen?"
     ],
     "Beobachtung / Sinneswahrnehmung": [
-      "Welche Geräusche oder Gerüche sind dir heute besonders aufgefallen?",
-      "Welches Detail in deiner Umgebung hat deine Aufmerksamkeit erregt?"
+      "Welche Geräusche sind dir heute besonders aufgefallen?",
+      "Welches Detail in deiner Umgebung hat deine Aufmerksamkeit erregt?",
+      "Versuche deine Umgebung von einer neuen Perspektive zu betrachten."
     ],
     "Reflexion / Emotion": [
       "Welcher Moment des Tages hat dir Freude bereitet?",
-      "Welche Stimmung oder Emotion hast du heute am stärksten gespürt?"
+      "Welche Emotion hat deinen Tag geprägt?",
+      "Was belastet dich zur Zeit?"
     ],
     "Dankbarkeit / Wertschätzung": [
       "Wofür bist du heute besonders dankbar?",
-      "Welche kleine Geste oder Begegnung hat dich heute glücklich gemacht?"
+      "Welche kleine Geste oder Begegnung hat dich heute glücklich gemacht?",
+      "Wann hast du dich das letzte Mal bei jemandem bedankt?",
+      "Wofür bist du dir selbst dankbar?"
     ],
     "Kreativität / Vorstellungskraft": [
       "Wenn du heute eine Geschichte schreiben würdest, worum würde sie gehen?",
-      "Welche Idee oder Vision würdest du gerne weiterentwickeln?"
+      "Welche Idee würdest du gerne weiterentwickeln?"
     ],
     "Lernen / Wachstum": [
       "Was hast du heute Neues gelernt?",
-      "Welche Fähigkeit oder Kenntnis würdest du gerne noch verbessern?"
+      "Welche Fähigkeit würdest du gerne noch verbessern?",
+      "Hast du diese Woche etwas falsch gemacht?",
+      "Setzt du dich neuen Wissensquellen aus?"
     ],
     "Natur / Umgebung": [
       "Was in der Natur hat dich heute beeindruckt?",
-      "Welcher Ort draußen hat dir heute Ruhe oder Freude geschenkt?"
+      "Welcher Ort draußen hat dir heute Ruhe oder Freude geschenkt?",
+      "Wo fühlst du dich am wohlsten?",
+      "Wo findest du Ruhe?"
     ],
     "Zukunft / Ziele": [
       "Welche kleinen Schritte könntest du morgen unternehmen, um ein Ziel zu erreichen?",
-      "Wovon träumst du aktuell und was kannst du heute dafür tun?"
+      "Wovon träumst du aktuell und was kannst du heute dafür tun?",
+      "Was ist ein langfristiges Ziel, das du verfolgst?",
+      "Was ist ein kurzfristiges Ziel, das du verfolgst?"
     ]
   }
 }
