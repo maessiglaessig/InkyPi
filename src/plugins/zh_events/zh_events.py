@@ -1,6 +1,5 @@
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.app_utils import resolve_path
-from playwright.sync_api import sync_playwright
 import json
 from PIL import Image, ImageDraw, ImageFont
 from utils.image_utils import resize_image
@@ -9,6 +8,9 @@ from pathlib import Path
 import time
 import logging
 import random
+import subprocess
+import shutil
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
@@ -57,46 +59,125 @@ class ZHEvents(BasePlugin):
     
     @staticmethod
     def scrape_kulturzueri(url):
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
+        logger.info(f"Scraping {url} using Chromium dump-dom...")
+        
+        # 1. Detect the binary robustly
+        chromium_bin = "chromium-headless-shell"
+        
+        # Check standard paths (Pi)
+        if not shutil.which(chromium_bin):
+            chromium_bin = "chromium-browser"
+        
+        # Optional: Check for local Mac binary if running in dev environment
+        # This keeps it working on your Mac without breaking the Pi logic
+        current_dir = Path(__file__).parent.resolve()
+        mac_binary_path = current_dir / "../chrome-headless-shell-mac-arm64/chrome-headless-shell"
+        if mac_binary_path.exists():
+            chromium_bin = str(mac_binary_path.resolve())
 
-            page.goto(url, timeout=60000)
-            page.wait_for_selector(".cp-teaser-box-item-kz", timeout=30000)
+        # 2. Prepare the command
+        command = [
+            chromium_bin,
+            "--headless",
+            "--dump-dom",
+            "--disable-gpu",
+            "--no-sandbox", # Essential for running as root/docker
+            "--disable-dev-shm-usage", # Essential for Pi low memory
+            "--virtual-time-budget=15000", # Allow 15s for JS to execute
+            url
+        ]
 
-            events = page.evaluate("""
-                () => Array.from(document.querySelectorAll('.cp-teaser-box-item-kz')).map(item => {
-                    const imageEl = item.querySelector('.image-container img');
-                    const titleEl = item.querySelector('.title');
-                    const locationEl = item.querySelector('.el-location');
+        try:
+            # 3. Execute Chromium
+            result = subprocess.run(
+                command, 
+                capture_output=True, 
+                text=True, 
+                check=True
+            )
+            html_content = result.stdout
 
-                    const teaserContainer = item.querySelector('.teaser-text-container');
-                    const descEl = teaserContainer ? teaserContainer.querySelector('p') : null;
-                    const dateEl = teaserContainer ? teaserContainer.querySelector('.date') : null;
-                    const timeEl = teaserContainer ? teaserContainer.querySelector('.time') : null;
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Chromium scraping failed: {e}")
+            logger.error(e.stderr)
+            return []
+        except FileNotFoundError:
+            logger.error(f"Chromium binary '{chromium_bin}' not found. Please install chromium-browser.")
+            return []
 
-                    return {
-                        title: titleEl ? titleEl.innerText.trim() : null,
-                        url: titleEl ? titleEl.href : null,
-                        image: imageEl ? imageEl.src : null,
-                        location: locationEl ? locationEl.innerText.trim() : null,
-                        description: descEl ? descEl.innerText.trim() : null,
-                        date: dateEl ? dateEl.innerText.trim() : null,
-                        time: timeEl ? timeEl.innerText.trim() : null
-                    };
-                })
-            """)
+        # 4. Parse output with BeautifulSoup
+        soup = BeautifulSoup(html_content, 'html.parser')
+        events = []
 
-            browser.close()
-            return events
+        items = soup.select('.cp-teaser-box-item-kz')
+
+        for item in items:
+            try:
+                # -- Image --
+                image_el = item.select_one('.image-container img')
+                image_src = None
+                if image_el and image_el.has_attr('src'):
+                    src = image_el['src']
+                    if src.startswith('/'):
+                        image_src = f"https://kulturzueri.ch{src}"
+                    else:
+                        image_src = src
+
+                # -- Title & URL --
+                title_el = item.select_one('.title')
+                title_text = title_el.get_text(strip=True) if title_el else None
+                title_url = title_el['href'] if title_el and title_el.has_attr('href') else None
+
+                # -- Location --
+                location_el = item.select_one('.el-location')
+                location_text = location_el.get_text(strip=True) if location_el else None
+
+                # -- Details (Description, Date, Time) --
+                teaser_container = item.select_one('.teaser-text-container')
+                desc_text = None
+                date_text = None
+                time_text = None
+
+                if teaser_container:
+                    # Description is usually the first paragraph inside teaser
+                    desc_el = teaser_container.find('p')
+                    desc_text = desc_el.get_text(strip=True) if desc_el else None
+                    
+                    date_el = teaser_container.select_one('.date')
+                    date_text = date_el.get_text(strip=True) if date_el else None
+                    
+                    time_el = teaser_container.select_one('.time')
+                    time_text = time_el.get_text(strip=True) if time_el else None
+
+                # Only add if we have a title
+                if title_text:
+                    events.append({
+                        "title": title_text,
+                        "url": title_url,
+                        "image": image_src,
+                        "location": location_text,
+                        "description": desc_text,
+                        "date": date_text,
+                        "time": time_text
+                    })
+
+            except Exception as e:
+                logger.warning(f"Error parsing a single event item: {e}")
+                continue
+        
+        logger.info(f"Successfully scraped {len(events)} events.")
+        return events
         
     @classmethod
     def load_cache(cls):
         if cls.CACHE_FILE.exists():
-            with open(cls.CACHE_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                data['last_scraped'] = datetime.fromisoformat(data['last_scraped'])
-                return data
+            try:
+                with open(cls.CACHE_FILE, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    data['last_scraped'] = datetime.fromisoformat(data['last_scraped'])
+                    return data
+            except (json.JSONDecodeError, ValueError):
+                logger.warning("Cache file corrupted, resetting cache.")
         return {"last_scraped": datetime.min, "exhibits": []}
     
     @classmethod
@@ -115,7 +196,10 @@ class ZHEvents(BasePlugin):
         if datetime.now() - cache["last_scraped"] > cls.SCRAPE_INTERVAL or not cache["exhibits"]:
             logger.info("Scraping kulturzueri website for exhibits...")
             exhibits = cls.scrape_kulturzueri("https://kulturzueri.ch/ausstellungen/")
-            cls.save_cache(exhibits)
+            if exhibits:
+                cls.save_cache(exhibits)
+            else:
+                logger.warning("Scrape returned no results, using empty cache or old data if available.")
         else:
             logger.info("Using cached exhibits...")
             exhibits = cache["exhibits"]
@@ -127,8 +211,3 @@ class ZHEvents(BasePlugin):
         if not exhibits:
             return None
         return random.choice(exhibits)
-
-        
-    
-            
-        
