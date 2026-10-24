@@ -1,0 +1,42 @@
+<div class="form-group">
+    <div class="form-group nowrap">
+        <label for="collection" class="form-label">Collection:</label>
+        <select id="collection" name="collection" class="form-input">
+            <option value="affirmations">Affirmations</option>
+            <option value="quotes">Motivational Quotes</option>
+            <option value="reflection">Reflection Prompts</option>
+            <option value="mixed">Mixed</option>
+        </select>
+    </div>
+
+    <div class="form-group nowrap">
+        <label for="title" class="form-label">Title (optional):</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Today's Affirmation" class="form-input">
+    </div>
+
+    <div class="form-group">
+        <label for="customEntries" class="form-label">Custom Entries (one per line):</label>
+        <textarea id="customEntries" name="customEntries" placeholder="I am exactly where I need to be." class="form-input" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="onlyCustom" class="form-label">Only Show Custom Entries:</label>
+        <div class="toggle-container">
+            <input type="checkbox" id="onlyCustom" name="onlyCustom" class="toggle-checkbox" value="false" onclick="this.value=this.checked ? 'true' : 'false';">
+            <label for="onlyCustom" class="toggle-label"></label>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (loadPluginSettings) {
+            document.getElementById('collection').value = pluginSettings.collection || 'affirmations';
+            document.getElementById('title').value = pluginSettings.title || '';
+            document.getElementById('customEntries').value = pluginSettings.customEntries || '';
+            const onlyCustom = document.getElementById('onlyCustom');
+            onlyCustom.checked = pluginSettings.onlyCustom === 'true';
+            onlyCustom.value = onlyCustom.checked ? 'true' : 'false';
+        }
+    });
+</script>
