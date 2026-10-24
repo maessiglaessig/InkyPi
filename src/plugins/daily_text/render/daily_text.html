@@ -1,0 +1,9 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="text-content">
+  {% if title %}<div class="title">{{ title }}</div>{% endif %}
+  <div class="content">{{ text }}</div>
+  {% if author %}<div class="author">— {{ author }}</div>{% endif %}
+</div>
+{% endblock %}
