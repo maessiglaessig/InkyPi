@@ -1,0 +1,22 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="publibike">
+  {% if title %}<div class="title">{{ title }}</div>{% endif %}
+  <div class="panes {{ layout }}">
+    {% for pane in panes %}
+    <div class="pane">
+      <div class="station-name">{{ pane.name }}</div>
+      <div class="station-address">{{ pane.address }}</div>
+      <div class="total">{{ pane.total }}</div>
+      <div class="total-label">bikes available</div>
+      <div class="counts">
+        <span class="count">🚲 <b>{{ pane.normal }}</b> Normal</span>
+        <span class="count">⚡ <b>{{ pane.electric }}</b> E-Bike</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="updated">updated {{ updated }}</div>
+</div>
+{% endblock %}
