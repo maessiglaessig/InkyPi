@@ -1,0 +1,67 @@
+<div class="form-group">
+    {% if not stations %}
+    <p class="form-label">⚠️ Could not load the station list from Publibike. Previously saved stations are kept; try reopening this page later.</p>
+    {% endif %}
+
+    <datalist id="stationList">
+        {% for station in stations %}
+        <option value="{{ station.name }}">{{ station.address }}</option>
+        {% endfor %}
+    </datalist>
+
+    <div class="form-group">
+        <label for="station1Name" class="form-label">Station 1:</label>
+        <input type="text" id="station1Name" name="station1Name" list="stationList" placeholder="Start typing, e.g. Albisriederplatz" required class="form-input" autocomplete="off">
+        <input type="hidden" id="station1" name="station1">
+    </div>
+
+    <div class="form-group">
+        <label for="station2Name" class="form-label">Station 2 (optional):</label>
+        <input type="text" id="station2Name" name="station2Name" list="stationList" placeholder="Start typing a station name" class="form-input" autocomplete="off">
+        <input type="hidden" id="station2" name="station2">
+    </div>
+
+    <div class="form-group">
+        <label for="showTitle" class="form-label">Show Title:</label>
+        <div class="toggle-container">
+            <input type="checkbox" id="showTitle" name="showTitle" class="toggle-checkbox" value="true" checked onclick="this.value=this.checked ? 'true' : 'false';">
+            <label for="showTitle" class="toggle-label"></label>
+        </div>
+    </div>
+
+    <div class="form-group nowrap">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" id="title" name="title" value="🚲 Publibike Availability" class="form-input">
+    </div>
+</div>
+
+<script>
+    const stationNumbers = Object.fromEntries(
+        {{ stations | tojson }}.map(station => [station.name, station.number])
+    );
+
+    function bindStation(index) {
+        const nameInput = document.getElementById(`station${index}Name`);
+        const numberInput = document.getElementById(`station${index}`);
+        nameInput.addEventListener('input', () => {
+            // Only overwrite the saved number when the station list is available
+            if (Object.keys(stationNumbers).length === 0) return;
+            numberInput.value = stationNumbers[nameInput.value.trim()] || '';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (loadPluginSettings) {
+            document.getElementById('station1Name').value = pluginSettings.station1Name || '';
+            document.getElementById('station1').value = pluginSettings.station1 || '';
+            document.getElementById('station2Name').value = pluginSettings.station2Name || '';
+            document.getElementById('station2').value = pluginSettings.station2 || '';
+            document.getElementById('title').value = pluginSettings.title ?? '🚲 Publibike Availability';
+            const showTitle = document.getElementById('showTitle');
+            showTitle.checked = pluginSettings.showTitle !== 'false';
+            showTitle.value = showTitle.checked ? 'true' : 'false';
+        }
+        bindStation(1);
+        bindStation(2);
+    });
+</script>
